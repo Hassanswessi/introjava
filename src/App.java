@@ -2,25 +2,54 @@ import java.util.Scanner;
 
 public class App {
     public static void main(String[] args) {
-        // Réupérer le nombre d'heure travaillées
+        Scanner scanner = new Scanner(System.in);
 
-        // Initialisation du scanner pour le clavier
-        Scanner clavier = new java.util.Scanner(System.in);
-        // nextInt attend une entrée au clavier
-        System.out.print("Combien d'heures avez-vous travaillées cette semaine ? ");
-        int heuresTravaillees = clavier.nextInt();
+        System.out.print("Quel est le stock initial ? ");
+        int stockInitial = scanner.nextInt();
 
-        // Réc
-        System.out.println("entrez le taux horaire : ");
-        double tauxHoraire = clavier.nextDouble();
+        System.out.print("Quel est le seuil d'alerte ? ");
+        int seuilAlerte = scanner.nextInt();
 
-        // on "ferme" la ressource clavier
-        clavier.close();
+        System.out.print("Combien de jours doit durer la simulation ? ");
+        int nombreJours = scanner.nextInt();
 
-        // multiplier le nombre d'heures travaillées par le taux horaire
-        double salairebrut = heuresTravaillees * tauxHoraire;
+        System.out.println();
 
-        // afficher le résultat
-        System.out.println("le salaire brut est de " + salairebrut);
+        int stockActuel = stockInitial;
+        boolean simulationEnCours = true;
+
+        for (int jour = 1; jour <= nombreJours; jour++) {
+            System.out.println("Jour " + jour);
+            System.out.println("------");
+
+            System.out.print("Quantité de produits reçue ? ");
+            int quantiteRecue = scanner.nextInt();
+
+            System.out.print("Quantité de produits vendue ? ");
+            int quantiteVendue = scanner.nextInt();
+
+            stockActuel = stockActuel + quantiteRecue - quantiteVendue;
+
+            System.out.println("Le stock actuel est de : " + stockActuel);
+
+            if (stockActuel < 0) {
+                System.out.println("ERREUR : le stock est négatif. Simulation arrêtée.");
+                simulationEnCours = false;
+                break;
+            } else {
+
+                if (stockActuel <= seuilAlerte) {
+                    System.out.println("ATTENTION : le stock est sous le seuil d'alerte !");
+                }
+            }
+
+            System.out.println();
+        }
+
+        if (simulationEnCours) {
+            System.out.println("Simulation terminée. Stock final : " + stockActuel + " unités");
+        }
+
+        scanner.close();
     }
 }

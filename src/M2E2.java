@@ -3,6 +3,7 @@ import java.util.Scanner;
 
 public class M2E2 {
     public static void main(String[] args) {
+
         String couleur = demanderLettreEtObtenirCouleur();
         if (couleur.equals("connais pas")) {
             System.out.println("Connais pas.");
